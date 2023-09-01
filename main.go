@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"strconv"
 	"syscall"
 	"time"
 
@@ -32,7 +33,7 @@ func main() {
 	ginEngine := initialize.InitGinEngine(Env)
 
 	srv := &http.Server{
-		Addr:    ":8080",
+		Addr:    fmt.Sprintf(":%s", strconv.Itoa(initialize.AppConfig.Server.Port)),
 		Handler: ginEngine,
 	}
 
