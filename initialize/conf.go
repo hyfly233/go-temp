@@ -1,20 +1,17 @@
 package initialize
 
 import (
+	"encoding/json"
 	"fmt"
+	"github.com/nacos-group/nacos-sdk-go/clients"
+	"github.com/nacos-group/nacos-sdk-go/vo"
+	"go-temp/conf"
+	"go-temp/global"
 
+	"github.com/nacos-group/nacos-sdk-go/common/constant"
 	"github.com/spf13/viper"
 	"go.uber.org/zap"
 )
-
-type AppsConfig struct {
-	Server struct {
-		Port int    `mapstructure:"port"`
-		Name string `mapstructure:"name"`
-	} `mapstructure:"server"`
-}
-
-var AppConfig *AppsConfig
 
 func InitConf(env *string) {
 	zap.S().Info("初始化配置文件 ------------------")
@@ -25,9 +22,50 @@ func InitConf(env *string) {
 		panic(err)
 	}
 
-	AppConfig = new(AppsConfig)
-	if err := v.Unmarshal(AppConfig); err != nil {
+	global.AppConfig = new(conf.AppsConfig)
+	if err := v.Unmarshal(global.AppConfig); err != nil {
 		panic(err)
 	}
-	zap.S().Info("配置文件初始化成功 ------------------")
+	zap.S().Info("初始化配置文件成功 ------------------")
+
+	zap.S().Info("初始化配置中心 ------------------")
+
+	nsc := []constant.ServerConfig{
+		{
+			IpAddr: "192.168.5.24",
+			Port:   8848,
+		},
+	}
+
+	ncc := constant.ClientConfig{
+		NamespaceId:         "123",
+		TimeoutMs:           5000,
+		NotLoadCacheAtStart: true,
+		LogDir:              "logs/nacos/log",
+		CacheDir:            "logs/nacos/cache",
+		LogLevel:            "debug",
+	}
+
+	client, err := clients.CreateConfigClient(map[string]interface{}{
+		"serverConfigs": nsc,
+		"clientConfig":  ncc,
+	})
+	if err != nil {
+		panic(err)
+	}
+
+	var config string
+	config, err = client.GetConfig(vo.ConfigParam{
+		DataId: "test123",
+		Group:  "test",
+	})
+	if err != nil {
+		panic(err)
+	}
+
+	global.ServerConfig = new(conf.ServerConfig)
+	json.Unmarshal([]byte(config), &global.ServerConfig)
+	fmt.Println(global.ServerConfig)
+
+	zap.S().Info("初始化配置中心成功 ------------------")
 }

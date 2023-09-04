@@ -32,8 +32,10 @@ func main() {
 
 	ginEngine := initialize.InitGinEngine(global.ENV)
 
+	zap.S().Infof("test %v", global.ServerConfig)
+
 	srv := &http.Server{
-		Addr:    fmt.Sprintf(":%s", strconv.Itoa(initialize.AppConfig.Server.Port)),
+		Addr:    fmt.Sprintf(":%s", strconv.Itoa(global.AppConfig.Server.Port)),
 		Handler: ginEngine,
 	}
 

@@ -1,8 +1,13 @@
 package global
 
-import "gorm.io/gorm"
+import (
+	"go-temp/conf"
+	"gorm.io/gorm"
+)
 
 var (
-	ENV *string
-	DB  *gorm.DB
+	AppConfig    *conf.AppsConfig
+	DB           *gorm.DB
+	ENV          *string
+	ServerConfig *conf.ServerConfig
 )
