@@ -3,6 +3,7 @@ package api
 import (
 	"net/http"
 
+	"go-temp/global"
 	"go-temp/model"
 
 	"github.com/gin-gonic/gin"
@@ -20,8 +21,18 @@ func ExampleRouter(group *gin.RouterGroup) {
 }
 
 func getTest01(ctx *gin.Context) {
+	test := new(model.Test)
+	tx := global.DB.Table("test").Where("id = ?", 1).First(&test)
+
+	if tx.Error != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"message": "查询出错，错误详情：" + tx.Error.Error(),
+		})
+		return
+	}
+
 	ctx.JSON(http.StatusOK, gin.H{
-		"message": "test01",
+		"message": "test01" + test.Id,
 	})
 }
 

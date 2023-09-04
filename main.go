@@ -5,6 +5,7 @@ import (
 	"errors"
 	"flag"
 	"fmt"
+
 	"net/http"
 	"os"
 	"os/signal"
@@ -13,24 +14,23 @@ import (
 	"time"
 
 	"go-temp/constant"
+	"go-temp/global"
 	"go-temp/initialize"
 
 	"go.uber.org/zap"
 )
 
-var Env *string
-
 func main() {
 
-	Env = flag.String(constant.ENV, constant.DEV, fmt.Sprintf("程序的运行环境：%s(开发)、%s(生产)", constant.DEV, constant.PROD))
+	global.ENV = flag.String(constant.ENV, constant.DEV, fmt.Sprintf("程序的运行环境：%s(开发)、%s(生产)", constant.DEV, constant.PROD))
 	flag.Parse()
 
 	// 初始化
-	initialize.InitLogger(Env)
-	initialize.InitConf(Env)
-	initialize.InitDB(Env)
+	initialize.InitLogger(global.ENV)
+	initialize.InitConf(global.ENV)
+	initialize.InitDB(global.ENV)
 
-	ginEngine := initialize.InitGinEngine(Env)
+	ginEngine := initialize.InitGinEngine(global.ENV)
 
 	srv := &http.Server{
 		Addr:    fmt.Sprintf(":%s", strconv.Itoa(initialize.AppConfig.Server.Port)),
