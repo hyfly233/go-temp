@@ -64,7 +64,10 @@ func InitConf(env *string) {
 	}
 
 	global.ServerConfig = new(conf.ServerConfig)
-	json.Unmarshal([]byte(config), &global.ServerConfig)
+	err = json.Unmarshal([]byte(config), &global.ServerConfig)
+	if err != nil {
+		panic(err)
+	}
 
 	zap.S().Info("初始化配置中心成功 ------------------")
 }
