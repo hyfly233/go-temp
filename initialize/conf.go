@@ -65,7 +65,6 @@ func InitConf(env *string) {
 
 	global.ServerConfig = new(conf.ServerConfig)
 	json.Unmarshal([]byte(config), &global.ServerConfig)
-	fmt.Println(global.ServerConfig)
 
 	zap.S().Info("初始化配置中心成功 ------------------")
 }

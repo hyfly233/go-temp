@@ -6,3 +6,15 @@ database:
   port: 3306
   username: root
   password: root
+nacos:
+  servers:
+    - ipAddr: localhost
+      port: 8848
+      scheme: http
+      contextPath: /nacos
+  client:
+    namespaceId: "123"
+    timeout: 3000
+    logDir: "logs/nacos/log"
+    cacheDir: "tmp/nacos/cache"
+    logLevel: "debug"
