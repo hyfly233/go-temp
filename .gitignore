@@ -26,3 +26,5 @@ go.work
 
 /logs
 /tmp
+/_docker/rocketmq/logs/
+/_docker/rocketmq/store/
