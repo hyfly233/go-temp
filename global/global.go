@@ -1,8 +1,9 @@
 package global
 
 import (
-	"go-temp/conf"
 	"gorm.io/gorm"
+
+	"go-temp/conf"
 )
 
 var (

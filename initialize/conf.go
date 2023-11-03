@@ -3,14 +3,15 @@ package initialize
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/nacos-group/nacos-sdk-go/clients"
-	"github.com/nacos-group/nacos-sdk-go/vo"
-	"go-temp/conf"
-	"go-temp/global"
 
+	"github.com/nacos-group/nacos-sdk-go/clients"
 	"github.com/nacos-group/nacos-sdk-go/common/constant"
+	"github.com/nacos-group/nacos-sdk-go/vo"
 	"github.com/spf13/viper"
 	"go.uber.org/zap"
+
+	"go-temp/conf"
+	"go-temp/global"
 )
 
 func InitConf(env *string) {
