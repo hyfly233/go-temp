@@ -2,14 +2,11 @@ package main
 
 import (
 	"context"
-	"errors"
 	"flag"
 	"fmt"
 
-	"net/http"
 	"os"
 	"os/signal"
-	"strconv"
 	"syscall"
 	"time"
 
@@ -30,20 +27,11 @@ func main() {
 	initialize.InitConf(global.ENV)
 	initialize.InitDB(global.ENV)
 
-	ginEngine := initialize.InitGinEngine(global.ENV)
+	srv := initialize.InitGinEngine(global.ENV)
 
-	zap.S().Infof("test %v", global.ServerConfig)
+	zap.S().Infof("test %v", global.NacosConfig)
 
-	srv := &http.Server{
-		Addr:    fmt.Sprintf(":%s", strconv.Itoa(global.AppConfig.Server.Port)),
-		Handler: ginEngine,
-	}
-
-	go func() {
-		if err := srv.ListenAndServe(); err != nil && !errors.Is(err, http.ErrServerClosed) {
-			zap.S().Errorf("ginEngine 运行出错: %v", err)
-		}
-	}()
+	initialize.InitGrpc(global.ENV)
 
 	quit := make(chan os.Signal)
 	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
