@@ -14,6 +14,8 @@ import (
 )
 
 func InitGinEngine(_ *string) *http.Server {
+	zap.S().Info("Gin 初始化 ------------------")
+
 	engine := gin.Default()
 
 	engine.Use(gin.Recovery())
@@ -22,10 +24,8 @@ func InitGinEngine(_ *string) *http.Server {
 	group := engine.Group("/v1")
 	api.ExampleRouter(group)
 
-	zap.S().Infof("test %v", global.NacosConfig)
-
 	srv := &http.Server{
-		Addr:    fmt.Sprintf(":%s", strconv.Itoa(global.AppConfig.Server.Port)),
+		Addr:    fmt.Sprintf(":%s", strconv.Itoa(global.ServerConfig.RestPort)),
 		Handler: engine,
 	}
 
@@ -35,5 +35,6 @@ func InitGinEngine(_ *string) *http.Server {
 		}
 	}()
 
+	zap.S().Info("Gin 初始化成功 ------------------")
 	return srv
 }

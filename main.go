@@ -29,8 +29,6 @@ func main() {
 
 	srv := initialize.InitGinEngine(global.ENV)
 
-	zap.S().Infof("test %v", global.NacosConfig)
-
 	initialize.InitGrpc(global.ENV)
 
 	quit := make(chan os.Signal)

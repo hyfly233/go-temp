@@ -7,9 +7,8 @@ import (
 )
 
 var (
-	AppConfig   *conf.AppsConfig
-	DB          *gorm.DB
-	ENV         *string
-	NacosConfig *conf.NacosConfig
-	GrpcConfig  *conf.GrpcConfig
+	NacosConfig  *conf.NacosConfig
+	DB           *gorm.DB
+	ENV          *string
+	ServerConfig *conf.ServerConfig
 )

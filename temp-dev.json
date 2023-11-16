@@ -1,0 +1,19 @@
+{
+  "name": "temp-dev",
+  "host": "127.0.0.1",
+  "tags": [
+    "temp",
+    "dev"
+  ],
+  "mysql": {
+    "host": "127.0.0.1",
+    "port": 3306,
+    "user": "root",
+    "password": "hyfly233",
+    "db": "test"
+  },
+  "consul": {
+    "host": "127.0.0.1",
+    "port": 8500
+  }
+}
